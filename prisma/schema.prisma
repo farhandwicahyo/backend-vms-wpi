@@ -133,6 +133,7 @@ model User_Penawaran{
   createdAt                   DateTime            @default(now())
   updatedAt                   DateTime            @updatedAt
   PO                          User_PO[]
+  detail_penawaran            Penawaran_Detail[]
 }
 
 model User_PO{
@@ -148,13 +149,13 @@ model User_PO{
   id_user             String
   user                User            @relation(fields: [id_user], references: [id_user])
   createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt 
+  updatedAt           DateTime        @updatedAt
+  detail_po           PO_Detail[] 
 }
 
-// slicing table
 model User_History{
   id_history      Int             @id @default(autoincrement())
-  id_status       Int            @unique
+  id_status       Int             @unique
   status          mst_status      @relation(fields: [id_status], references: [id_status])
   id_user         String
   user            User            @relation(fields: [id_user], references: [id_user])
@@ -166,6 +167,8 @@ model Penawaran_Detail{
   id_detail_penawaran Int             @id @default(autoincrement())
   id_user             String
   user                User            @relation(fields: [id_user], references: [id_user])
+  id_penawaran        Int
+  penawaran           User_Penawaran  @relation(fields: [id_penawaran], references: [id_penawaran])
   id_product          Int
   product             User_Product    @relation(fields: [id_product],references: [id_product])
   quantity            String
@@ -178,6 +181,8 @@ model PO_Detail{
   id_detail_penawaran Int             @id @default(autoincrement())
   id_user             String
   user                User            @relation(fields: [id_user], references: [id_user])
+  id_po               Int
+  po                  User_PO         @relation(fields: [id_po],references: [id_po])
   id_product          Int
   product             User_Product    @relation(fields: [id_product],references: [id_product])
   quantity            String
