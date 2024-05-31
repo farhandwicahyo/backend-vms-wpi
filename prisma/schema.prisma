@@ -38,7 +38,6 @@ model User {
   history           User_History[]
   po                User_PO[]
   detail_po         PO_Detail[]
-
 }
 
 model User_Document{ 

@@ -1,28 +1,39 @@
-const { PrismaClient, Prisma } = require('@prisma/client')
-const prisma = new PrismaClient()
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-const User = {
-    getAll: async () => {
-        try {
-            const users = await prisma.user.findMany()
+const getAllUsers = async () => {
+  return await prisma.user.findMany();
+};
 
-            return users
-        } catch (error) {
-            throw new Error(error.message)
-        }
-    },
+const getUserById = async (id) => {
+  return await prisma.user.findUnique({
+    where: { id_user: id }
+  });
+};
 
-    getById: async (id) => {
-        try {
-            const user = await prisma.$queryRaw`
-                SELECT * FROM User WHERE id = ${id}
-            `
+const createUser = async (userData) => {
+  return await prisma.user.create({
+    data: userData
+  });
+};
 
-            return user
-        } catch (error) {
-            throw new Error(error.message)
-        }
-    }
-}
+const updateUser = async (id, userData) => {
+  return await prisma.user.update({
+    where: { id_user: id },
+    data: userData
+  });
+};
 
-module.exports = User
+const deleteUser = async (id) => {
+  return await prisma.user.delete({
+    where: { id_user: id }
+  });
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+};

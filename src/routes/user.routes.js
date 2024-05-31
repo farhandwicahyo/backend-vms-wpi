@@ -1,7 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const UserController = require('../controllers/user.controller')
+const express = require('express');
+const bodyParser = require('body-parser');
+const userController = require('../controllers/user.controller');
 
-router.get('/', UserController.getAll)
+const app = express();
 
-module.exports = router
+app.use(bodyParser.json());
+
+app.get('/users', userController.getAllUsers);
+app.get('/user/:id', userController.getUserById);
+app.post('/user', userController.createUser);
+app.put('/user/:id', userController.updateUser);
+app.delete('/user/:id', userController.deleteUser);
+
+module.exports = app;
