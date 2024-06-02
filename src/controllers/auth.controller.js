@@ -9,20 +9,16 @@ const login = async (req, res) => {
       identifier,
       password
     );
-
-    // Decode access token to get user information
     const decodedAccessToken = jwt.verify(
       accessToken,
       process.env.ACCESS_TOKEN_SECRET
     );
-
-    // Extract user information from decoded token
     const { id, email, username, role } = decodedAccessToken;
 
-    // Return user information along with tokens
     res.status(200).json({
       user: { id, email, username, role },
       tokens: { accessToken, refreshToken },
+      message: "Login berhasil",
     });
   } catch (error) {
     res.status(401).json({ error: error.message });
