@@ -225,7 +225,7 @@ async function seeder() {
           nip: "003",
           email: "admin@ptwpi.co.id",
           username: "admin",
-          password: hashedPassword,
+          password: hashedPas sword,
           nama_perusahaan: "PT Warung Pangan Indonesia",
           nama_pic: "Farhan Dwicahyo",
           no_telephone: "085710116209",
