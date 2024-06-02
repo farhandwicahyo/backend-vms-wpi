@@ -37,6 +37,8 @@ model User {
   penawaran         User_Penawaran[]
   history           User_History[]
   po                User_PO[]
+  accessToken       String?
+  refreshToken      String?
 }
 
 model User_Document{ 
