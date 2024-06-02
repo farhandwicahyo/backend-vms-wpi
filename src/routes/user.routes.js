@@ -1,15 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const userController = require('../controllers/user.controller');
+const { getAllUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/user.controller');
+const { authenticateToken, authorizeRoles } = require('../middlewares/role.middleware');
 
-const app = express();
+const router = express.Router();
 
-app.use(bodyParser.json());
+router.get('/', authenticateToken, authorizeRoles([1, 2, 3, 4]), getAllUsers);
+router.get('/:id', authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserById);
+router.post('/', authenticateToken, authorizeRoles([1]), createUser);
+router.put('/:id', authenticateToken, authorizeRoles([1, 2]), updateUser);
+router.delete('/:id', authenticateToken, authorizeRoles([1]), deleteUser);
 
-app.get('/users', userController.getAllUsers);
-app.get('/user/:id', userController.getUserById);
-app.post('/user', userController.createUser);
-app.put('/user/:id', userController.updateUser);
-app.delete('/user/:id', userController.deleteUser);
-
-module.exports = app;
+module.exports = router;

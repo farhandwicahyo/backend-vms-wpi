@@ -37,8 +37,8 @@ model User {
   penawaran         User_Penawaran[]
   history           User_History[]
   po                User_PO[]
-  accessToken       String?
-  refreshToken      String?
+  accessToken       String?          @db.VarChar(1000)
+  refreshToken      String?          @db.VarChar(1000)
 }
 
 model User_Document{ 
@@ -69,7 +69,7 @@ model User_Sertifikasi{
 
 model User_Product{
   id_product        Int               @id @default(autoincrement())
-  id_user           Int            @unique
+  id_user           Int               @unique
   user              User              @relation(fields: [id_user], references: [id_user])
   brand             String
   nama_perusahaan   String

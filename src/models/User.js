@@ -1,6 +1,24 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const getUserByEmailOrUsername = async (identifier) => {
+  return await prisma.user.findFirst({
+    where: {
+      OR: [
+        { email: identifier },
+        { username: identifier }
+      ]
+    }
+  });
+};
+
+const updateUserTokens = async (userId, accessToken, refreshToken) => {
+  return await prisma.user.update({
+    where: { id_user: userId },
+    data: { accessToken, refreshToken }
+  });
+};
+
 const getAllUsers = async () => {
   return await prisma.user.findMany();
 };
@@ -35,5 +53,7 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUserByEmailOrUsername,
+  updateUserTokens
 };
