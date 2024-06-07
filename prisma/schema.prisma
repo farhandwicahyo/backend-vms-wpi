@@ -43,7 +43,7 @@ model User {
 
 model User_Document{ 
   id_document       Int                   @id @default(autoincrement())
-  id_user           Int                @unique
+  id_user           Int                   @unique
   user              User                  @relation(fields: [id_user], references: [id_user])
   nama_document     String 
   id_jenis_document Int                   @unique
@@ -56,7 +56,7 @@ model User_Document{
 
 model User_Sertifikasi{
   id_sertifikasi        Int                       @id @default(autoincrement())
-  id_user               Int                    @unique
+  id_user               Int                       @unique
   user                  User                      @relation(fields: [id_user], references: [id_user])
   nama_sertifikasi      String
   id_jenis_sertifikasi  Int                       @unique
@@ -229,20 +229,20 @@ model mst_status{
 }
 
 model mst_provinsi{
-  id_provinsi     Int             @id @unique @default(autoincrement())
-  kotaId          Int             @unique
-  kota            mst_kota        @relation(fields: [kotaId], references: [id_kota])  
+  id_provinsi     Int             @id @unique @default(autoincrement()) 
   nama_provinsi   String
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  product         User_Product[] 
+  product         User_Product[]
+  kota            mst_kota[] 
 }
 
 model mst_kota{
   id_kota         Int             @id @unique @default(autoincrement())
+  id_provinsi     Int
+  provinsi        mst_provinsi    @relation(fields: [id_provinsi],references: [id_provinsi])
   nama_kota       String
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt 
-  provinsi        mst_provinsi[]
   product         User_Product[]
 }

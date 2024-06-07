@@ -1,9 +1,9 @@
 const sertifikasiModel = require('../models/JenisSertifikasi');
 
-const getAllSertifikasis = async (req, res) => {
+const getAllSertifikasi = async (req, res) => {
   try {
-    const sertifikasis = await sertifikasiModel.getAllSertifikasis();
-    res.status(200).json(sertifikasis);
+    const sertifikasi = await sertifikasiModel.getAllSertifikasi();
+    res.status(200).json(sertifikasi);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,7 +59,7 @@ const deleteSertifikasi = async (req, res) => {
 };
 
 module.exports = {
-  getAllSertifikasis,
+  getAllSertifikasi,
   getSertifikasiById,
   createSertifikasi,
   updateSertifikasi,

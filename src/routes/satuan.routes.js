@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const {
-  getAllSatuans,
+  getAllsatuan,
   getSatuanById,
   createSatuan,
   updateSatuan,
   deleteSatuan,
-} = require('../controllers/satuan.controller');
+} = require("../controllers/satuan.controller");
 
 const router = express.Router();
 
-router.get('/satuans', getAllSatuans);
-router.get('/satuans/:id', getSatuanById);
-router.post('/satuans', createSatuan);
-router.put('/satuans/:id', updateSatuan);
-router.delete('/satuans/:id', deleteSatuan);
+router.get("/satuan", getAllsatuan);
+router.get("/satuan/:id", getSatuanById);
+router.post("/satuan", createSatuan);
+router.put("/satuan/:id", updateSatuan);
+router.delete("/satuan/:id", deleteSatuan);
 
 module.exports = router;

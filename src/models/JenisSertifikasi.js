@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const getAllSertifikasis = async () => {
+const getAllSertifikasi = async () => {
   return await prisma.mst_jenis_sertifikasi.findMany();
 };
 
@@ -31,7 +31,7 @@ const deleteSertifikasi = async (id) => {
 };
 
 module.exports = {
-  getAllSertifikasis,
+  getAllSertifikasi,
   getSertifikasiById,
   createSertifikasi,
   updateSertifikasi,

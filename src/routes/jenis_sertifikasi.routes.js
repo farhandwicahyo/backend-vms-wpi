@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  getAllSertifikasis,
+  getAllSertifikasi,
   getSertifikasiById,
   createSertifikasi,
   updateSertifikasi,
@@ -9,10 +9,10 @@ const {
 
 const router = express.Router();
 
-router.get('/sertifikasis', getAllSertifikasis);
-router.get('/sertifikasis/:id', getSertifikasiById);
-router.post('/sertifikasis', createSertifikasi);
-router.put('/sertifikasis/:id', updateSertifikasi);
-router.delete('/sertifikasis/:id', deleteSertifikasi);
+router.get('/sertifikasi', getAllSertifikasi);
+router.get('/sertifikasi/:id', getSertifikasiById);
+router.post('/sertifikasi', createSertifikasi);
+router.put('/sertifikasi/:id', updateSertifikasi);
+router.delete('/sertifikasi/:id', deleteSertifikasi);
 
 module.exports = router;

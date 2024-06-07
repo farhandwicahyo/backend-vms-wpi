@@ -1,18 +1,20 @@
-const express = require('express');
+const express = require("express");
 const {
-  getAllKotas,
+  getAllkota,
   getKotaById,
+  getKotaByProvinsiId,
   createKota,
   updateKota,
   deleteKota,
-} = require('../controllers/kota.controller');
+} = require("../controllers/kota.controller");
 
 const router = express.Router();
 
-router.get('/kotas', getAllKotas);
-router.get('/kotas/:id', getKotaById);
-router.post('/kotas', createKota);
-router.put('/kotas/:id', updateKota);
-router.delete('/kotas/:id', deleteKota);
+router.get("/kota", getAllkota);
+router.get("/kota/:id", getKotaById);
+router.get('/kota/provinsi/:provinsiId', getKotaByProvinsiId);
+router.post("/kota", createKota);
+router.put("/kota/:id", updateKota);
+router.delete("/kota/:id", deleteKota);
 
 module.exports = router;

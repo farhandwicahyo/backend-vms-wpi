@@ -1,13 +1,19 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getAllKotas = async () => {
+const getAllkota = async () => {
   return await prisma.mst_kota.findMany();
 };
 
 const getKotaById = async (id) => {
   return await prisma.mst_kota.findUnique({
     where: { id_kota: Number(id) },
+  });
+};
+
+const getKotaByProvinsiId = async (provinsiId) => {
+  return await prisma.mst_kota.findMany({
+    where: { id_provinsi: Number(provinsiId) },
   });
 };
 
@@ -31,8 +37,9 @@ const deleteKota = async (id) => {
 };
 
 module.exports = {
-  getAllKotas,
+  getAllkota,
   getKotaById,
+  getKotaByProvinsiId,
   createKota,
   updateKota,
   deleteKota,

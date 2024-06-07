@@ -1,9 +1,9 @@
-const kotaModel = require('../models/Kota');
+const kotaModel = require("../models/Kota");
 
-const getAllKotas = async (req, res) => {
+const getAllkota = async (req, res) => {
   try {
-    const kotas = await kotaModel.getAllKotas();
-    res.status(200).json(kotas);
+    const kota = await kotaModel.getAllkota();
+    res.status(200).json(kota);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -17,8 +17,19 @@ const getKotaById = async (req, res) => {
     if (kota) {
       res.status(200).json(kota);
     } else {
-      res.status(404).json({ error: 'Kota not found' });
+      res.status(404).json({ error: "Kota not found" });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getKotaByProvinsiId = async (req, res) => {
+  const { provinsiId } = req.params;
+
+  try {
+    const kota = await kotaModel.getKotaByProvinsiId(provinsiId);
+    res.status(200).json(kota);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,9 +70,10 @@ const deleteKota = async (req, res) => {
 };
 
 module.exports = {
-  getAllKotas,
+  getAllkota,
   getKotaById,
+  getKotaByProvinsiId,
   createKota,
   updateKota,
-  deleteKota
+  deleteKota,
 };

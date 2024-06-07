@@ -11,3 +11,4 @@ router.put('/:id', authenticateToken, authorizeRoles([1, 2]), updateUser);
 router.delete('/:id', authenticateToken, authorizeRoles([1]), deleteUser);
 
 module.exports = router;
+  

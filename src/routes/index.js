@@ -10,8 +10,9 @@ const SatuanRoutes = require("./satuan.routes");
 const KursRoutes = require("./kurs.routes");
 const JenisProductRoutes = require("./jenis_product.routes");
 const StatusRoutes = require("./status.routes");
-const ProvinsiRoutes= require("./provinsi.routes");
+const provinsiRoutes = require("./provinsi.routes");
 const Kota = require("./kota.routes");
+const UserDocument = require("./user_document.routes");
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
@@ -22,8 +23,8 @@ router.use("/satuan", SatuanRoutes);
 router.use("/kurs", KursRoutes);
 router.use("/jenis-product", JenisProductRoutes);
 router.use("/status", StatusRoutes);
-router.use("/provinsi", ProvinsiRoutes);
+router.use("/provinsi", provinsiRoutes);
 router.use("/kota", Kota);
+router.use("/userdocuments", UserDocument);
 
 module.exports = router;
-  

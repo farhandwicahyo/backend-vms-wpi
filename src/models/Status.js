@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getAllStatuses = async () => {
+const getAllstatus = async () => {
   return await prisma.mst_status.findMany();
 };
 
@@ -31,7 +31,7 @@ const deleteStatus = async (id) => {
 };
 
 module.exports = {
-  getAllStatuses,
+  getAllstatus,
   getStatusById,
   createStatus,
   updateStatus,
