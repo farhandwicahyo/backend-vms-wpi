@@ -178,134 +178,109 @@ const getUserPenawaranByStatusProsesPenawaran = async (
   }
 };
 
-// const createUserPenawaran = async (documentData) => {
-//   try {
-//     const {
-//       id_user,
-//       brand,
-//       price,
-//       id_kurs,
-//       stock,
-//       volume,
-//       id_satuan,
-//       address,
-//       item_image,
-//       description,
-//       id_jenis_product,
-//       id_provinsi,
-//       id_kota,
-//       company_category,
-//       storage_type,
-//       packaging,
-//     } = documentData;
+const createUserPenawaran = async (documentData) => {
+  try {
+    const {
+      no_penawaran,
+      id_user,
+      id_product,
+      tanggal_dibuat_penawaran,
+      tanggal_mulai_penawaran,
+      tanggal_berakhir_penawaran,
+      Terms_of_Payment,
+      Terms_of_Delivery,
+      description,
+      id_status_penawaran,
+      id_status_proses_penawaran,
+    } = documentData;
 
-//     const response = await prisma.$queryRaw`
-//         INSERT INTO user_product
-//           (
-//               id_user,
-//               brand,
-//               price,
-//               id_kurs,
-//               stock,
-//               volume,
-//               id_satuan,
-//               address,
-//               item_image,
-//               description,
-//               id_jenis_product,
-//               id_provinsi,
-//               id_kota,
-//               company_category,
-//               storage_type,
-//               packaging
-//           )
-//         VALUES
-//           (
-//             ${id_user},
-//             ${brand},
-//             ${price},
-//             ${id_kurs},
-//             ${stock},
-//             ${volume},
-//             ${id_satuan},
-//             ${address},
-//             ${item_image},
-//             ${description},
-//             ${id_jenis_product},
-//             ${id_provinsi},
-//             ${id_kota},
-//             ${company_category},
-//             ${storage_type},
-//             ${packaging}
-//           )
-//       `;
+    const response = await prisma.$queryRaw`
+        INSERT INTO User_Penawaran
+          (
+            no_penawaran,
+            id_user,
+            id_product,
+            tanggal_dibuat_penawaran,
+            tanggal_mulai_penawaran,
+            tanggal_berakhir_penawaran,
+            Terms_of_Payment,
+            Terms_of_Delivery,
+            description,
+            id_status_penawaran,
+            id_status_proses_penawaran
+          )
+        VALUES
+          (
+            ${no_penawaran},
+            ${id_user},
+            ${id_product},
+            ${tanggal_dibuat_penawaran},
+            ${tanggal_mulai_penawaran},
+            ${tanggal_berakhir_penawaran},
+            ${Terms_of_Payment},
+            ${Terms_of_Delivery},
+            ${description},
+            ${id_status_penawaran},
+            ${id_status_proses_penawaran}
+          )
+      `;
 
-//     return response;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
-// const updateUserPenawaran = async (id, documentData) => {
-//   try {
-//     const {
-//       id_user,
-//       brand,
-//       price,
-//       id_kurs,
-//       stock,
-//       volume,
-//       id_satuan,
-//       address,
-//       item_image,
-//       description,
-//       id_jenis_product,
-//       id_provinsi,
-//       id_kota,
-//       company_category,
-//       storage_type,
-//       packaging,
-//     } = documentData;
+const updateUserPenawaran = async (id, documentData) => {
+  try {
+    const {
+      no_penawaran,
+      id_user,
+      id_product,
+      tanggal_dibuat_penawaran,
+      tanggal_mulai_penawaran,
+      tanggal_berakhir_penawaran,
+      Terms_of_Payment,
+      Terms_of_Delivery,
+      description,
+      id_status_penawaran,
+      id_status_proses_penawaran,
+    } = documentData;
 
-//     const response = await prisma.$queryRaw`
-//         UPDATE user_product
-//         SET
-//           id_user = ${id_user},
-//           brand = ${brand},
-//           price = ${price},
-//           id_kurs = ${id_kurs},
-//           stock = ${stock},
-//           volume = ${volume},
-//           id_satuan = ${id_satuan},
-//           address = ${address},
-//           item_image = ${item_image},
-//           description = ${description},
-//           id_jenis_product = ${id_jenis_product},
-//           id_provinsi = ${id_provinsi},
-//           id_kota = ${id_kota},
-//           company_category = ${company_category},
-//           storage_type = ${storage_type},
-//           packaging = ${packaging}
-//         WHERE id_product = ${id}
-//       `;
+    const response = await prisma.$queryRaw`
+        UPDATE user_penawaran
+        SET
+          no_penawaran = ${no_penawaran},
+          id_user = ${id_user},
+          id_product = ${id_product},
+          tanggal_dibuat_penawaran = ${tanggal_dibuat_penawaran},
+          tanggal_mulai_penawaran = ${tanggal_mulai_penawaran},
+          tanggal_berakhir_penawaran = ${tanggal_berakhir_penawaran}, 
+          Terms_of_Payment = ${Terms_of_Payment},
+          Terms_of_Delivery = ${Terms_of_Delivery},
+          description = ${description},
+          id_status_penawaran = ${id_status_penawaran},
+          id_status_proses_penawaran = ${id_status_proses_penawaran},
+        WHERE id_penawaran = ${id}
+      `;
 
-//     return response;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
-// const deleteUserPenawaran = async (id) => {
-//   try {
-//     const response = await prisma.$queryRaw`
-//       DELETE FROM user_product WHERE id_product = ${id}
-//     `;
+const deleteUserPenawaran = async (id) => {
+  try {
+    const response = await prisma.$queryRaw`
+      DELETE FROM user_penawaran WHERE id_penawaran = ${id}
+    `;
 
-//     return response;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 module.exports = {
   getAllUserPenawaran,
@@ -313,7 +288,7 @@ module.exports = {
   getUserPenawaranByIdUser,
   getUserPenawaranByStatusPenawaran,
   getUserPenawaranByStatusProsesPenawaran,
-  //   createUserPenawaran,
-  //   updateUserPenawaran,
-  //   deleteUserPenawaran,
+  createUserPenawaran,
+  updateUserPenawaran,
+  deleteUserPenawaran,
 };

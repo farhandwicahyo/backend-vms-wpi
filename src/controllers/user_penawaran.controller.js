@@ -68,60 +68,55 @@ const getUserPenawaranByStatusProsesPenawaran = async (req, res) => {
   }
 };
 
-// const createUserPenawaran = async (req, res) => {
-//   try {
-//     const data = {
-//       id_user: req.body.id_user,
-//       brand: req.body.brand,
-//       price: req.body.price,
-//       id_kurs: Number(req.body.id_kurs),
-//       stock: req.body.stock,
-//       volume: req.body.volume,
-//       id_satuan: Number(req.body.id_satuan),
-//       address: req.body.address,
-//       item_image: req.body.item_image,
-//       description: req.body.description,
-//       id_jenis_product: Number(req.body.id_jenis_product),
-//       id_provinsi: Number(req.body.id_provinsi),
-//       id_kota: Number(req.body.id_kota),
-//       company_category: req.body.company_category,
-//       storage_type: req.body.storage_type,
-//       packaging: req.body.packaging,
-//     };
-//     console.log(data);
-//     const newUserPenawaran = await userPenawaranModel.createUserPenawaran(data);
-//     res.status(201).json(newUserPenawaran);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+const createUserPenawaran = async (req, res) => {
+  try {
+    const data = {
+      no_penawaran: req.body.no_penawaran,
+      id_user: Number(req.body.id_user),
+      id_product: Number(req.body.id_product),
+      tanggal_dibuat_penawaran: req.body.tanggal_dibuat_penawaran,
+      tanggal_mulai_penawaran: req.body.tanggal_mulai_penawaran,
+      tanggal_berakhir_penawaran: req.body.tanggal_berakhir_penawaran,
+      Terms_of_Payment: req.body.Terms_of_Payment,
+      Terms_of_Delivery: req.body.Terms_of_Delivery,
+      description: req.body.description,
+      id_status_penawaran: Number(req.body.id_status_penawaran),
+      id_status_proses_penawaran: Number(req.body.id_status_proses_penawaran),
+    };
+    console.log(data);
+    const newUserPenawaran = await userPenawaranModel.createUserPenawaran(data);
+    res.status(201).json(newUserPenawaran);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-// const updateUserPenawaran = async (req, res) => {
-//   const { id } = req.params;
-//   const documentData = req.body;
+const updateUserPenawaran = async (req, res) => {
+  const { id } = req.params;
+  const documentData = req.body;
 
-//   try {
-//     const updatedUserPenawaran = await userPenawaranModel.updateUserPenawaran(
-//       id,
-//       documentData
-//     );
-//     console.log(updatedUserPenawaran);
-//     return res.status(200).json(updatedUserPenawaran);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+  try {
+    const updatedUserPenawaran = await userPenawaranModel.updateUserPenawaran(
+      id,
+      documentData
+    );
+    console.log(updatedUserPenawaran);
+    return res.status(200).json(updatedUserPenawaran);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-// const deleteUserPenawaran = async (req, res) => {
-//   const { id } = req.params;
-//   console.log(id);
-//   try {
-//     await userPenawaranModel.deleteUserPenawaran(id);
-//     res.status(204).send();
-//   } catch (error) {
-//     return res.status(500).json({ error: error.message });
-//   }
-// };
+const deleteUserPenawaran = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    await userPenawaranModel.deleteUserPenawaran(id);
+    res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getAllUserPenawaran,
@@ -129,7 +124,7 @@ module.exports = {
   getUserPenawaranByIdUser,
   getUserPenawaranByStatusPenawaran,
   getUserPenawaranByStatusProsesPenawaran,
-  //   createUserPenawaran,
-  //   updateUserPenawaran,
-  //   deleteUserPenawaran,
+  createUserPenawaran,
+  updateUserPenawaran,
+  deleteUserPenawaran,
 };
