@@ -17,6 +17,7 @@ const UserSertifikasi = require("./user_sertifikasi.routes");
 const UserPengalaman = require("./user_pengalaman.routes");
 const UserProduct = require("./user_product.routes");
 const UserPenawaran = require("./user_penawaran.routes");
+const ManagerRoutes = require("./manager.routes");
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
@@ -34,5 +35,6 @@ router.use("/usersertifikasi", UserSertifikasi);
 router.use("/userpengalaman", UserPengalaman);
 router.use("/userproduct", UserProduct);
 router.use("/userpenawaran", UserPenawaran);
+router.use("/manager", ManagerRoutes);
 
 module.exports = router;
