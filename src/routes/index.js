@@ -13,6 +13,10 @@ const StatusRoutes = require("./status.routes");
 const provinsiRoutes = require("./provinsi.routes");
 const Kota = require("./kota.routes");
 const UserDocument = require("./user_document.routes");
+const UserSertifikasi = require("./user_sertifikasi.routes");
+const UserPengalaman = require("./user_pengalaman.routes");
+const UserProduct = require("./user_product.routes");
+const UserPenawaran = require("./user_penawaran.routes");
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
@@ -26,5 +30,9 @@ router.use("/status", StatusRoutes);
 router.use("/provinsi", provinsiRoutes);
 router.use("/kota", Kota);
 router.use("/userdocuments", UserDocument);
+router.use("/usersertifikasi", UserSertifikasi);
+router.use("/userpengalaman", UserPengalaman);
+router.use("/userproduct", UserProduct);
+router.use("/userpenawaran", UserPenawaran);
 
 module.exports = router;

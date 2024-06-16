@@ -183,6 +183,16 @@ async function seeder() {
           nama_status: "Tidak Berlaku",
           group_status: "status_penawaran",
         },
+        {
+          kode_status: "VMSWPI00010",
+          nama_status: "Sudah Upload",
+          group_status: "status_upload_document",
+        },
+        {
+          kode_status: "VMSWPI00011",
+          nama_status: "Belum Upload",
+          group_status: "status_upload_document",
+        },
       ],
     });
 
