@@ -85,9 +85,14 @@ const createUserPenawaran = async (req, res) => {
     };
     console.log(data);
     const newUserPenawaran = await userPenawaranModel.createUserPenawaran(data);
-    res.status(201).json(newUserPenawaran);
+    return res.status(201).json({
+      message: "Penawaran baru berhasil dibuat",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Kesalahan saat membuat user penawaran" });
   }
 };
 
@@ -101,9 +106,14 @@ const updateUserPenawaran = async (req, res) => {
       documentData
     );
     console.log(updatedUserPenawaran);
-    return res.status(200).json(updatedUserPenawaran);
+    return res.status(200).json({
+      message: `User penawaran dengan ID ${id} berhasil diperbarui`,
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Kesalahan saat memperbarui user penawaran" });
   }
 };
 
@@ -112,9 +122,10 @@ const deleteUserPenawaran = async (req, res) => {
   console.log(id);
   try {
     await userPenawaranModel.deleteUserPenawaran(id);
-    res.status(204).send();
+    return res.status(204).send();  // No content needed in the response body
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error(error);
+    return res.status(500).json({ error: "Kesalahan saat menghapus user penawaran" });
   }
 };
 

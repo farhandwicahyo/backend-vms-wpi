@@ -244,6 +244,216 @@ async function seeder() {
       ],
     });
 
+    const provinsi = await prisma.mst_provinsi.createMany({
+      data: [
+        { nama_provinsi: "Jawa Barat" },
+        { nama_provinsi: "Jawa Tengah" },
+        { nama_provinsi: "Jawa Timur" },
+        { nama_provinsi: "DKI Jakarta" },
+        { nama_provinsi: "Banten" }
+      ]
+    });
+
+    const kota = await prisma.mst_kota.createMany({
+      data: [
+        { id_provinsi: 1, nama_kota: "Bandung" },
+        { id_provinsi: 1, nama_kota: "Bekasi" },
+        { id_provinsi: 2, nama_kota: "Semarang" },
+        { id_provinsi: 2, nama_kota: "Solo" },
+        { id_provinsi: 3, nama_kota: "Surabaya" },
+        { id_provinsi: 3, nama_kota: "Malang" },
+        { id_provinsi: 4, nama_kota: "Jakarta Pusat" },
+        { id_provinsi: 4, nama_kota: "Jakarta Selatan" },
+        { id_provinsi: 5, nama_kota: "Serang" },
+        { id_provinsi: 5, nama_kota: "Tangerang" }
+      ]
+    });
+
+    const userDocuments = await prisma.user_Document.createMany({
+      data: [
+        {
+          id_user: 1,
+          nama_document: "Surat Permohonan menjadi DRM",
+          id_jenis_document: 1,
+          tanggal_berlaku: new Date('2023-01-01'),
+          tanggal_berakhir: new Date('2024-01-01'),
+          id_status: 1,
+          file: "document1.pdf"
+        },
+        {
+          id_user: 1,
+          nama_document: "Akta pendirian beserta perubahan terakhir",
+          id_jenis_document: 2,
+          tanggal_berlaku: new Date('2022-01-01'),
+          tanggal_berakhir: new Date('2023-01-01'),
+          id_status: 1,
+          file: "document2.pdf"
+        }
+      ]
+    });
+
+    const userSertifikasi = await prisma.user_Sertifikasi.createMany({
+      data: [
+        {
+          id_user: 1,
+          nama_sertifikasi: "Pengadaan Barang dan Jasa",
+          id_jenis_sertifikasi: 1,
+          tanggal_berlaku: new Date('2023-01-01'),
+          tanggal_berakhir: new Date('2024-01-01'),
+          file: "sertifikat1.pdf"
+        },
+        {
+          id_user: 1,
+          nama_sertifikasi: "Jasa Konsultasi",
+          id_jenis_sertifikasi: 2,
+          tanggal_berlaku: new Date('2022-01-01'),
+          tanggal_berakhir: new Date('2023-01-01'),
+          file: "sertifikat2.pdf"
+        }
+      ]
+    });
+
+    const userProduct = await prisma.user_Product.createMany({
+      data: [
+        {
+          id_user: 1,
+          brand: "Brand A",
+          price: 1000.0,
+          id_kurs: 1,
+          stock: 100,
+          volume: "10 KG",
+          id_satuan: 2,
+          address: "Jl. ABC No. 1",
+          item_image: "product1.jpg",
+          description: "Product Description 1",
+          id_jenis_product: 1,
+          id_provinsi: 1,
+          id_kota: 1,
+          company_category: "Category A",
+          storage_type: "Cold Storage",
+          packaging: "Packaged"
+        },
+        {
+          id_user: 1,
+          brand: "Brand B",
+          price: 2000.0,
+          id_kurs: 1,
+          stock: 200,
+          volume: "20 KG",
+          id_satuan: 2,
+          address: "Jl. DEF No. 2",
+          item_image: "product2.jpg",
+          description: "Product Description 2",
+          id_jenis_product: 2,
+          id_provinsi: 1,
+          id_kota: 1,
+          company_category: "Category B",
+          storage_type: "Dry Storage",
+          packaging: "Loose"
+        }
+      ]
+    });
+
+    const userPengalaman = await prisma.user_Pengalaman.createMany({
+      data: [
+        {
+          id_user: 1,
+          nama_klien: "Client A",
+          nama_proyek: "Project A",
+          id_kurs: 1,
+          nilai_proyek: 5000.0,
+          no_kontrak: "CONTRACT123",
+          kontak_klien: "08123456789",
+          tanggal_mulai: new Date('2021-01-01'),
+          tanggal_selesai: new Date('2022-01-01')
+        },
+        {
+          id_user: 1,
+          nama_klien: "Client B",
+          nama_proyek: "Project B",
+          id_kurs: 1,
+          nilai_proyek: 10000.0,
+          no_kontrak: "CONTRACT456",
+          kontak_klien: "08198765432",
+          tanggal_mulai: new Date('2022-01-01'),
+          tanggal_selesai: new Date('2023-01-01')
+        }
+      ]
+    });
+
+    const userPenawaran = await prisma.user_Penawaran.createMany({
+      data: [
+        {
+          no_penawaran: "OFF123",
+          id_user: 1,
+          id_status_proses_penawaran: 3,
+          id_status_penawaran: 8,
+          id_product: 1,
+          tanggal_dibuat_penawaran: new Date('2023-05-01'),
+          tanggal_mulai_penawaran: new Date('2023-06-01'),
+          tanggal_berakhir_penawaran: new Date('2023-12-01'),
+          Terms_of_Payment: "30 days",
+          Terms_of_Delivery: "FOB",
+          description: "Penawaran Description 1"
+        },
+        {
+          no_penawaran: "OFF456",
+          id_user: 1,
+          id_status_proses_penawaran: 3,
+          id_status_penawaran: 8,
+          id_product: 2,
+          tanggal_dibuat_penawaran: new Date('2023-05-01'),
+          tanggal_mulai_penawaran: new Date('2023-06-01'),
+          tanggal_berakhir_penawaran: new Date('2023-12-01'),
+          Terms_of_Payment: "60 days",
+          Terms_of_Delivery: "CIF",
+          description: "Penawaran Description 2"
+        }
+      ]
+    });
+
+    const userPO = await prisma.user_PO.createMany({
+      data: [
+        {
+          no_po: "PO123",
+          no_penawaran: "OFF123",
+          id_user: 1,
+          id_product: 1,
+          tanggal_dibuat_po: new Date('2023-05-15'),
+          tanggal_mulai_po: new Date('2023-06-15'),
+          tanggal_berakhir_po: new Date('2023-12-15'),
+          Terms_of_Payment: "30 days",
+          Terms_of_Delivery: "FOB",
+          description: "PO Description 1"
+        },
+        {
+          no_po: "PO456",
+          no_penawaran: "OFF456",
+          id_user: 1,
+          id_product: 2,
+          tanggal_dibuat_po: new Date('2023-05-15'),
+          tanggal_mulai_po: new Date('2023-06-15'),
+          tanggal_berakhir_po: new Date('2023-12-15'),
+          Terms_of_Payment: "60 days",
+          Terms_of_Delivery: "CIF",
+          description: "PO Description 2"
+        }
+      ]
+    });
+
+    const userHistory = await prisma.user_History.createMany({
+      data: [
+        {
+          id_status: 1,
+          id_user: 1
+        },
+        {
+          id_status: 2,
+          id_user: 1
+        }
+      ]
+    });
+
     console.log("Seeding success");
   } catch (error) {
     console.error("Failed to seed database", error.message);

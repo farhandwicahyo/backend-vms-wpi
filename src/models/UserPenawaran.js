@@ -248,21 +248,21 @@ const updateUserPenawaran = async (id, documentData) => {
     } = documentData;
 
     const response = await prisma.$queryRaw`
-        UPDATE user_penawaran
-        SET
-          no_penawaran = ${no_penawaran},
-          id_user = ${id_user},
-          id_product = ${id_product},
-          tanggal_dibuat_penawaran = ${tanggal_dibuat_penawaran},
-          tanggal_mulai_penawaran = ${tanggal_mulai_penawaran},
-          tanggal_berakhir_penawaran = ${tanggal_berakhir_penawaran}, 
-          Terms_of_Payment = ${Terms_of_Payment},
-          Terms_of_Delivery = ${Terms_of_Delivery},
-          description = ${description},
-          id_status_penawaran = ${id_status_penawaran},
-          id_status_proses_penawaran = ${id_status_proses_penawaran},
-        WHERE id_penawaran = ${id}
-      `;
+      UPDATE user_penawaran
+      SET
+        no_penawaran = ${no_penawaran},
+        id_user = ${id_user},
+        id_product = ${id_product},
+        tanggal_dibuat_penawaran = ${tanggal_dibuat_penawaran},
+        tanggal_mulai_penawaran = ${tanggal_mulai_penawaran},
+        tanggal_berakhir_penawaran = ${tanggal_berakhir_penawaran},
+        Terms_of_Payment = ${Terms_of_Payment},
+        Terms_of_Delivery = ${Terms_of_Delivery},
+        description = ${description},
+        id_status_penawaran = ${id_status_penawaran},
+        id_status_proses_penawaran = ${id_status_proses_penawaran}
+      WHERE id_penawaran = ${id}
+    `;
 
     return response;
   } catch (error) {
