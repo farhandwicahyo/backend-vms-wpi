@@ -17,3 +17,4 @@ router.put('/vendor/:id', authenticateToken, authorizeRoles([1]), updateUser);
 router.post('/register', registerUser);
 
 module.exports = router;
+  

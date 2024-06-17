@@ -26,7 +26,7 @@ model User {
   no_telephone      String
   id_role           Int
   role              mst_role        @relation(fields: [id_role], references: [id_role])
-  id_status         Int?            @unique
+  id_status         Int?            
   status            mst_status?     @relation(fields: [id_status], references: [id_status])
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
@@ -43,53 +43,55 @@ model User {
 
 model User_Document{ 
   id_document       Int                   @id @default(autoincrement())
-  id_user           Int                @unique
+  id_user           Int                  
   user              User                  @relation(fields: [id_user], references: [id_user])
   nama_document     String 
-  id_jenis_document Int                   @unique
+  id_jenis_document Int                   
   jenis_document    mst_jenis_document    @relation(fields: [id_jenis_document], references: [id_jenis_document])
   tanggal_berlaku   DateTime
   tanggal_berakhir  DateTime
+  id_status         Int                 
+  status            mst_status            @relation(fields: [id_status], references: [id_status])
+  file              String
   createdAt         DateTime              @default(now())
   updatedAt         DateTime              @updatedAt
 }
 
 model User_Sertifikasi{
   id_sertifikasi        Int                       @id @default(autoincrement())
-  id_user               Int                    @unique
+  id_user               Int                       
   user                  User                      @relation(fields: [id_user], references: [id_user])
   nama_sertifikasi      String
-  id_jenis_sertifikasi  Int                       @unique
+  id_jenis_sertifikasi  Int                       
   jenis_sertifikasi     mst_jenis_sertifikasi     @relation(fields: [id_jenis_sertifikasi], references: [id_jenis_sertifikasi])
   tanggal_berlaku       DateTime                  @db.Date
   tanggal_berakhir      DateTime                  @db.Date
+  file                  String
   createdAt             DateTime                  @default(now())
   updatedAt             DateTime                  @updatedAt 
 }
 
 model User_Product{
   id_product        Int               @id @default(autoincrement())
-  id_user           Int               @unique
+  id_user           Int               
   user              User              @relation(fields: [id_user], references: [id_user])
   brand             String
-  nama_perusahaan   String
   price             Decimal
-  id_kurs           Int               @unique
+  id_kurs           Int               
   kurs              mst_kurs          @relation(fields: [id_kurs], references: [id_kurs])
   stock             Int
   volume            String
-  id_satuan         Int               @unique
+  id_satuan         Int               
   satuan            mst_satuan        @relation(fields: [id_satuan], references: [id_satuan])
   address           String
   item_image        String
   description       String
   id_jenis_product  Int
   jenis_product     mst_jenis_product @relation(fields: [id_jenis_product],references: [id_jenis_product])
-  id_provisi        Int
-  provinsi          mst_provinsi      @relation(fields: [id_provisi], references: [id_provinsi])
+  id_provinsi        Int
+  provinsi          mst_provinsi      @relation(fields: [id_provinsi], references: [id_provinsi])
   id_kota           Int
   kota              mst_kota          @relation(fields: [id_kota],references: [id_kota])
-  company_name      String
   company_category  String
   storage_type      String
   packaging         String
@@ -101,11 +103,11 @@ model User_Product{
 
 model User_Pengalaman{
   id_pengalaman   Int       @id @default(autoincrement())
-  id_user         Int       @unique
+  id_user         Int       
   user            User      @relation(fields: [id_user], references: [id_user])
   nama_klien      String
   nama_proyek     String
-  id_kurs         Int       @unique
+  id_kurs         Int       
   kurs            mst_kurs  @relation(fields: [id_kurs], references: [id_kurs])
   nilai_proyek    Decimal
   no_kontrak      String
@@ -119,10 +121,12 @@ model User_Pengalaman{
 model User_Penawaran{
   id_penawaran                Int                 @id @default(autoincrement())
   no_penawaran                String              @unique
-  id_user                     Int                 @unique
+  id_user                     Int                 
   user                        User                @relation(fields: [id_user], references: [id_user])
-  id_status                   Int                 @unique
-  status                      mst_status          @relation(fields: [id_status], references: [id_status])
+  id_status_proses_penawaran  Int                 
+  status_proses_penawaran     mst_status          @relation(name: "StatusProsesPenawaran", fields: [id_status_proses_penawaran], references: [id_status])
+  id_status_penawaran         Int
+  status_penawaran            mst_status          @relation(name: "StatusPenawaran", fields: [id_status_penawaran], references: [id_status])
   id_product                  Int                 
   product                     User_Product        @relation(fields: [id_product], references: [id_product])
   tanggal_dibuat_penawaran    DateTime
@@ -141,7 +145,7 @@ model User_PO{
   no_po                       String              @unique
   no_penawaran                String              @unique
   penawaran                   User_Penawaran      @relation(fields: [no_penawaran],references: [no_penawaran])
-  id_user                     Int                 @unique
+  id_user                     Int                 
   user                        User                @relation(fields: [id_user], references: [id_user])
   id_product                  Int                 
   product                     User_Product        @relation(fields: [id_product], references: [id_product])
@@ -157,7 +161,7 @@ model User_PO{
 
 model User_History{
   id_history      Int             @id @default(autoincrement())
-  id_status       Int             @unique
+  id_status       Int             
   status          mst_status      @relation(fields: [id_status], references: [id_status])
   id_user         Int
   user            User            @relation(fields: [id_user], references: [id_user])
@@ -216,33 +220,35 @@ model mst_jenis_product{
 }
 
 model mst_status{
-  id_status     Int               @id @default(autoincrement())
-  kode_status   String            @unique
-  nama_status   String
-  group_status  String
-  keterangan    String?
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt 
-  penawaran     User_Penawaran[]
-  user          User[]
-  history       User_History[]
+  id_status         Int               @id @default(autoincrement())
+  kode_status       String            @unique
+  nama_status       String
+  group_status      String
+  keterangan        String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt 
+  document          User_Document[]
+  penawaran         User_Penawaran[]  @relation(name: "StatusPenawaran")
+  proses_penawaran  User_Penawaran[]  @relation(name: "StatusProsesPenawaran")
+  user              User[]
+  history           User_History[]
 }
 
 model mst_provinsi{
-  id_provinsi     Int             @id @unique @default(autoincrement())
-  kotaId          Int             @unique
-  kota            mst_kota        @relation(fields: [kotaId], references: [id_kota])  
+  id_provinsi     Int             @id @unique @default(autoincrement()) 
   nama_provinsi   String
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  product         User_Product[] 
+  product         User_Product[]
+  kota            mst_kota[] 
 }
 
 model mst_kota{
   id_kota         Int             @id @unique @default(autoincrement())
+  id_provinsi     Int
+  provinsi        mst_provinsi    @relation(fields: [id_provinsi],references: [id_provinsi])
   nama_kota       String
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt 
-  provinsi        mst_provinsi[]
   product         User_Product[]
 }
