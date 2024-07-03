@@ -8,18 +8,19 @@ const {
   updateUserSertifikasi,
   deleteUserSertifikasi,
 } = require("../controllers/user_sertifikasi.controller");
+const { authenticateToken, authorizeRoles } = require("../middlewares/role.middleware");
 
 const router = express.Router();
 
-router.get("/", getAllUsersertifikasi);
-router.get("/:id", getUserSertifikasiById);
-router.get("/user/:userId", getUserSertifikasiByIdUser);
+router.get("/", authenticateToken, authorizeRoles([1, 2, 3, 4]), getAllUsersertifikasi);
+router.get("/:id", authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserSertifikasiById);
+router.get("/user/:userId", authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserSertifikasiByIdUser);
 router.get(
-  "/jenis/:jenisSertifikasiId",
+  "/jenis/:jenisSertifikasiId", authenticateToken, authorizeRoles([1, 2, 3, 4]),
   getUserSertifikasiByIdJenisSertifikasi
 );
-router.post("/", createUserSertifikasi);
-router.put("/:id", updateUserSertifikasi);
-router.delete("/:id", deleteUserSertifikasi);
+router.post("/", authenticateToken, authorizeRoles([1, 2, 3, 4]), createUserSertifikasi);
+router.put("/:id", authenticateToken, authorizeRoles([1, 2, 3, 4]), updateUserSertifikasi);
+router.delete("/:id", authenticateToken, authorizeRoles([1, 2, 3, 4]), deleteUserSertifikasi);
 
 module.exports = router;

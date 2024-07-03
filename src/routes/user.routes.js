@@ -4,11 +4,11 @@ const { authenticateToken, authorizeRoles } = require('../middlewares/role.middl
 
 const router = express.Router();
 
-router.get('/', authenticateToken, authorizeRoles([1, 2, 3, 4]), getAllUsers);
+router.get('/', authenticateToken, authorizeRoles([2, 3, 4]), getAllUsers);
 router.get('/:id', authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserById);
-router.post('/', authenticateToken, authorizeRoles([1]), createUser);
-router.put('/:id', authenticateToken, authorizeRoles([1, 2]), updateUser);
-router.delete('/:id', authenticateToken, authorizeRoles([1]), deleteUser);
+router.post('/', createUser);
+router.put('/:id', authenticateToken, authorizeRoles([1 ,2, 3, 4]), updateUser);
+router.delete('/:id', authenticateToken, authorizeRoles([4]), deleteUser);
 
 module.exports = router;
   

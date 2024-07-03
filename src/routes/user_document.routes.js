@@ -8,15 +8,16 @@ const {
   updateUserDocument,
   deleteUserDocument,
 } = require('../controllers/user_document.controller');
+const { authenticateToken, authorizeRoles } = require('../middlewares/role.middleware');
 
 const router = express.Router();
 
-router.get('/', getAllUserDocuments);
-router.get('/:id', getUserDocumentById);
-router.get('/user/:userId', getUserDocumentByIdUser);
-router.get('/jenis/:jenisDocumentId', getUserDocumentByIdJenisDocument);
-router.post('/', createUserDocument);
-router.put('/:id', updateUserDocument);
-router.delete('/:id', deleteUserDocument);
+router.get('/', authenticateToken, authorizeRoles([1, 2, 3, 4]), getAllUserDocuments);
+router.get('/:id', authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserDocumentById);
+router.get('/user/:userId', authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserDocumentByIdUser);
+router.get('/jenis/:jenisDocumentId', authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserDocumentByIdJenisDocument);
+router.post('/', authenticateToken, authorizeRoles([1, 2, 3, 4]), createUserDocument);
+router.put('/:id', authenticateToken, authorizeRoles([1, 2, 3, 4]), updateUserDocument);
+router.delete('/:id', authenticateToken, authorizeRoles([1, 2, 3, 4]), deleteUserDocument);
 
 module.exports = router;

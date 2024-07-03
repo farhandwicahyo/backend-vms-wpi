@@ -6,13 +6,14 @@ const {
   updateUserPengalaman,
   deleteUserPengalaman,
 } = require("../controllers/user_pengalaman.controller");
+const { authenticateToken, authorizeRoles } = require("../middlewares/role.middleware");
 
 const router = express.Router();
 
-router.get("/", getAllUserPengalaman);
-router.get("/user/:userId", getUserPengalamanByIdUser);
-router.post("/", createUserPengalaman);
-router.patch("/:id", updateUserPengalaman);
-router.delete("/:id", deleteUserPengalaman);
+router.get("/", authenticateToken, authorizeRoles([1, 2, 3, 4]), getAllUserPengalaman);
+router.get("/user/:userId", authenticateToken, authorizeRoles([1, 2, 3, 4]), getUserPengalamanByIdUser);
+router.post("/", authenticateToken, authorizeRoles([1, 2, 3, 4]), createUserPengalaman);
+router.patch("/:id", authenticateToken, authorizeRoles([1, 2, 3, 4]), updateUserPengalaman);
+router.delete("/:id", authenticateToken, authorizeRoles([1, 2, 3, 4]), deleteUserPengalaman);
 
 module.exports = router;
