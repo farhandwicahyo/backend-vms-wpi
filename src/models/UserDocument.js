@@ -22,19 +22,6 @@ const getUserDocumentById = async (id) => {
 };
 
 const getUserDocumentByIdUser = async (userId) => {
-  // try {
-  //   const response = await prisma.$queryRaw(Prisma.sql`
-  //     SELECT user_document.id_document, user.nama_perusahaan, user_document.nama_document, mst_jenis_document.nama_document AS 'jenis_document', user_document.tanggal_berlaku, user_document.tanggal_berakhir
-  //     FROM user_document
-  //     LEFT JOIN User ON user_document.id_user = user.id_user
-  //     LEFT JOIN mst_jenis_document ON user_document.id_jenis_document = mst_jenis_document.id_jenis_document
-  //     WHERE user.id_user = ${userId}
-  //   `)
-
-  //   return response
-  // } catch (error) {
-  //   throw new Error(error.message)
-  // }
   return await prisma.$queryRaw`
     SELECT user_document.id_document, user.nama_perusahaan, user_document.nama_document, mst_jenis_document.nama_document AS 'jenis_document', user_document.tanggal_berlaku, user_document.tanggal_berakhir, user_document.file, mst_status.nama_status  FROM user_document
         LEFT JOIN User ON user_document.id_user = user.id_user 

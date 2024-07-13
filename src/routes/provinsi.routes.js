@@ -10,7 +10,7 @@ const { authenticateToken, authorizeRoles } = require('../middlewares/role.middl
 
 const router = express.Router();
 
-router.get("/provinsi", , getAllprovinsi);
+router.get("/provinsi", getAllprovinsi);
 router.get("/provinsi/:id", getprovinsiById);
 router.post("/provinsi", authenticateToken, authorizeRoles([2, 3, 4]), createprovinsi);
 router.put("/provinsi/:id", authenticateToken, authorizeRoles([2, 3, 4]), updateprovinsi);
