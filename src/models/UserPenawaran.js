@@ -27,6 +27,42 @@ const getAllUserPenawaran = async () => {
     `;
 };
 
+const getUserPenawaranByManager = async () => {
+  return await prisma.$queryRaw`
+    SELECT 
+    user_penawaran.no_penawaran,
+    user_product.brand,
+    user_product.price,
+    mst_kurs.nama_kurs,
+    user_product.stock,
+    mst_satuan.nama_satuan,
+    user_penawaran.tanggal_dibuat_penawaran,
+    user_penawaran.tanggal_mulai_penawaran,
+    user_penawaran.tanggal_berakhir_penawaran,
+    user_penawaran.Terms_of_Payment,
+    user_penawaran.Terms_of_Delivery,
+    user_penawaran.description,
+    status_penawaran.nama_status AS nama_status_penawaran,
+    status_proses.nama_status AS nama_status_proses_penawaran
+FROM 
+    user_penawaran 
+LEFT JOIN 
+    user_product ON user_penawaran.id_product = user_product.id_product
+LEFT JOIN 
+    mst_kurs ON user_product.id_kurs = mst_kurs.id_kurs
+LEFT JOIN 
+    mst_satuan ON user_product.id_satuan = mst_satuan.id_satuan
+LEFT JOIN 
+    mst_status AS status_penawaran ON user_penawaran.id_status_penawaran = status_penawaran.id_status
+LEFT JOIN 
+    mst_status AS status_proses ON user_penawaran.id_status_proses_penawaran = status_proses.id_status
+WHERE
+    status_penawaran.nama_status IN ('Berlaku','Tidak Berlaku')
+    AND
+    status_proses.nama_status IN ('Penawaran Dipilih Staff', 'Penawaran Dipilih Manager', 'Penawaran Ditolak Manager');
+    `;
+};
+
 const getUserPenawaranDetail = async (id) => {
   try {
     const data = await prisma.$queryRaw`
@@ -284,6 +320,7 @@ const deleteUserPenawaran = async (id) => {
 
 module.exports = {
   getAllUserPenawaran,
+  getUserPenawaranByManager,
   getUserPenawaranDetail,
   getUserPenawaranByIdUser,
   getUserPenawaranByStatusPenawaran,

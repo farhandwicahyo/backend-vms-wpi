@@ -9,6 +9,15 @@ const getAllUserPenawaran = async (req, res) => {
   }
 };
 
+const getUserPenawaranByManager = async (req, res) => {
+  try {
+    const userPenawaran = await userPenawaranModel.getUserPenawaranByManager();
+    res.status(200).json(userPenawaran);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getUserPenawaranDetail = async (req, res) => {
   const { penawaranId } = req.params;
   try {
@@ -120,6 +129,7 @@ const deleteUserPenawaran = async (req, res) => {
 
 module.exports = {
   getAllUserPenawaran,
+  getUserPenawaranByManager,
   getUserPenawaranDetail,
   getUserPenawaranByIdUser,
   getUserPenawaranByStatusPenawaran,

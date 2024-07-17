@@ -13,6 +13,30 @@ const getAllUserPengalaman = async () => {
   }
 };
 
+const getUserPengalamanById = async () => {
+  try {
+    const response = await prisma.$queryRaw(Prisma.sql`
+      SELECT 
+          user_pengalaman.id_pengalaman, 
+          user.nama_perusahaan, 
+          user_pengalaman.nama_klien, 
+          user_pengalaman.nama_proyek, 
+          user_pengalaman.nilai_proyek, 
+          mst_kurs.nama_kurs, 
+          user_pengalaman.no_kontrak, 
+          user_pengalaman.kontak_klien, 
+          user_pengalaman.tanggal_mulai, 
+          user_pengalaman.tanggal_selesai 
+      FROM user_pengalaman
+      LEFT JOIN User ON user_pengalaman.id_user = user.id_user
+      LEFT JOIN mst_kurs ON user_pengalaman.id_kurs = mst_kurs.id_kurs
+      WHERE user.id_pengalaman = ${pengalamanId}
+    `);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const getUserPengalamanByIdUser = async (userId) => {
   try {
     const response = await prisma.$queryRaw(Prisma.sql`
@@ -113,6 +137,7 @@ const deleteUserPengalaman = async (id) => {
 
 module.exports = {
   getAllUserPengalaman,
+  getUserPengalamanById,
   getUserPengalamanByIdUser,
   createUserPengalaman,
   updateUserPengalaman,

@@ -2,7 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getAllkota = async () => {
-  return await prisma.mst_kota.findMany();
+  // return await prisma.mst_kota.findMany();
+  return await prisma.$queryRaw`
+        SELECT mst_kota.id_kota, mst_provinsi.nama_provinsi, mst_kota.nama_kota FROM mst_kota
+        LEFT JOIN mst_provinsi ON mst_kota.id_provinsi = mst_provinsi.id_provinsi
+    `;
 };
 
 const getKotaById = async (id) => {

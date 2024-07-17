@@ -9,6 +9,24 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getAllUserInternal = async (req, res) => {
+  try {
+    const users = await userModel.getAllUserInternal();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllUserDRM = async (req, res) => {
+  try {
+    const users = await userModel.getAllUserDRM();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getUserById = async (req, res) => {
   const { id } = req.params;
 
@@ -56,6 +74,8 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getAllUserInternal,
+  getAllUserDRM,
   getUserById,
   createUser,
   updateUser,

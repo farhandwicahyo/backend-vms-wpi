@@ -9,6 +9,18 @@ const getAllUserPengalaman = async (req, res) => {
   }
 };
 
+const getUserPengalamanById = async (req, res) => {
+  const { pengalamanId } = req.params;
+  try {
+    const userpengalaman = await userPengalamanModel.getUserPengalamanByIdUser(
+      pengalamanId
+    );
+    return res.status(200).json(userpengalaman);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const getUserPengalamanByIdUser = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -71,6 +83,7 @@ const deleteUserPengalaman = async (req, res) => {
 
 module.exports = {
   getAllUserPengalaman,
+  getUserPengalamanById,
   getUserPengalamanByIdUser,
   createUserPengalaman,
   updateUserPengalaman,
