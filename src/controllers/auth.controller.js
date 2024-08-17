@@ -61,8 +61,30 @@ const logout = async (req, res) => {
   }
 };
 
+const register = async (req, res) => {
+  const userData = req.body;
+
+  try {
+    const { accessToken, refreshToken } = await authService.register(userData);
+    const decodedAccessToken = jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    const { id, email, username, role } = decodedAccessToken;
+
+    res.status(201).json({
+      user: { id, email, username, role },
+      tokens: { accessToken, refreshToken },
+      message: "Register berhasil",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   login,
   refreshAccessToken,
   logout,
+  register,
 };
