@@ -1,4 +1,4 @@
-const userModel = require('../models/User');
+const userModel = require("../models/User");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -31,7 +31,7 @@ const getUserById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await userModel.getUserById(id);
+    const user = await userModel.getUserById(Number(id));
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -54,7 +54,7 @@ const updateUser = async (req, res) => {
   const userData = req.body;
 
   try {
-    const user = await userModel.updateUser(id, userData);
+    const user = await userModel.updateUser(Number(id), userData);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -65,7 +65,7 @@ const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await userModel.deleteUser(id);
+    await userModel.deleteUser(Number(id));
     res.status(204).end();
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -79,5 +79,5 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
 };

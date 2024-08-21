@@ -19,6 +19,7 @@ const UserProduct = require("./user_product.routes");
 const UserPenawaran = require("./user_penawaran.routes");
 const UserPO = require("./user_po.routes");
 const ManagerRoutes = require("./manager.routes");
+const { serveFile } = require("../controllers/file.controller");
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
@@ -38,5 +39,6 @@ router.use("/userproduct", UserProduct);
 router.use("/userpenawaran", UserPenawaran);
 router.use("/userpo", UserPO);
 router.use("/manager", ManagerRoutes);
+router.get("/file/:filename", serveFile);
 
 module.exports = router;

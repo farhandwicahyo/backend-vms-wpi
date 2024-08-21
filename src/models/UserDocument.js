@@ -58,7 +58,13 @@ const createUserDocument = async (documentData) => {
       VALUES (${id_user}, ${nama_document}, ${id_jenis_document}, ${tanggal_berlaku}, ${tanggal_berakhir}, ${file}, ${id_status})
     `;
 
-    return response;
+    const insertedRow = await prisma.$queryRaw`
+      SELECT * FROM user_document
+      WHERE id_user = ${id_user} AND nama_document = ${nama_document}
+      ORDER BY id_document DESC LIMIT 1;
+    `;
+
+    return insertedRow;
   } catch (error) {
     throw new Error(error.message);
   }
