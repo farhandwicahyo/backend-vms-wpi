@@ -8,6 +8,7 @@ const {
   createUserDocument,
   updateUserDocument,
   deleteUserDocument,
+  getMissingDocumentsByUser,
 } = require("../controllers/user_document.controller");
 const {
   authenticateToken,
@@ -49,6 +50,7 @@ router.post(
 );
 router.put(
   "/:id",
+  upload.single("file"),
   authenticateToken,
   authorizeRoles([1, 2, 3, 4]),
   updateUserDocument
@@ -59,5 +61,6 @@ router.delete(
   authorizeRoles([1, 2, 3, 4]),
   deleteUserDocument
 );
+router.get("/missing/:userId", authenticateToken, getMissingDocumentsByUser);
 
 module.exports = router;
