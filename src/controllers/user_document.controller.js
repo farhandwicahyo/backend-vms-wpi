@@ -86,8 +86,6 @@ const updateUserDocument = async (req, res) => {
       data.file = req.file.path;
     }
 
-    console.log(data);
-
     const updatedUserDocument = await userDocumentModel.updateUserDocument(
       id,
       data

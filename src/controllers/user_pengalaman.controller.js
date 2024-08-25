@@ -36,17 +36,16 @@ const getUserPengalamanByIdUser = async (req, res) => {
 const createUserPengalaman = async (req, res) => {
   try {
     const data = {
-      id_user: req.body.id_user,
+      id_user: req.user.id,
       nama_klien: req.body.nama_klien,
       nama_proyek: req.body.nama_proyek,
-      nilai_proyek: req.body.nilai_proyek,
+      nilai_proyek: Number(req.body.nilai_proyek),
       id_kurs: Number(req.body.id_kurs),
-      no_kontrak: Number(req.body.no_kontrak),
-      kontak_klien: Number(req.body.kontak_klien),
+      no_kontrak: req.body.no_kontrak,
+      kontak_klien: req.body.kontak_klien,
       tanggal_mulai: req.body.tanggal_mulai,
       tanggal_selesai: req.body.tanggal_selesai,
     };
-    console.log(data);
     const newUserPengalaman = await userPengalamanModel.createUserPengalaman(
       data
     );
