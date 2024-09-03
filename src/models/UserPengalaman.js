@@ -13,9 +13,9 @@ const getAllUserPengalaman = async () => {
   }
 };
 
-const getUserPengalamanById = async () => {
+const getUserPengalamanById = async (id) => {
   try {
-    const response = await prisma.$queryRaw(Prisma.sql`
+    const response = await prisma.$queryRaw`
       SELECT 
           user_pengalaman.id_pengalaman, 
           user.nama_perusahaan, 
@@ -23,6 +23,7 @@ const getUserPengalamanById = async () => {
           user_pengalaman.nama_proyek, 
           user_pengalaman.nilai_proyek, 
           mst_kurs.nama_kurs, 
+          mst_kurs.id_kurs,
           user_pengalaman.no_kontrak, 
           user_pengalaman.kontak_klien, 
           user_pengalaman.tanggal_mulai, 
@@ -30,8 +31,10 @@ const getUserPengalamanById = async () => {
       FROM user_pengalaman
       LEFT JOIN User ON user_pengalaman.id_user = user.id_user
       LEFT JOIN mst_kurs ON user_pengalaman.id_kurs = mst_kurs.id_kurs
-      WHERE user.id_pengalaman = ${pengalamanId}
-    `);
+      WHERE user_pengalaman.id_pengalaman = ${id}
+    `;
+
+    return response[0];
   } catch (error) {
     throw new Error(error.message);
   }
@@ -92,7 +95,6 @@ const updateUserPengalaman = async (id, pengalamanData) => {
   try {
     console.log(id);
     const {
-      id_user,
       nama_klien,
       nama_proyek,
       nilai_proyek,
@@ -105,7 +107,7 @@ const updateUserPengalaman = async (id, pengalamanData) => {
 
     const response = await prisma.$queryRaw`
       UPDATE user_pengalaman
-      SET id_user = ${id_user},
+      SET 
           nama_klien = ${nama_klien},
           nama_proyek = ${nama_proyek},
           nilai_proyek = ${nilai_proyek},

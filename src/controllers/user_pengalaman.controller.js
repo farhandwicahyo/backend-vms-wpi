@@ -10,11 +10,9 @@ const getAllUserPengalaman = async (req, res) => {
 };
 
 const getUserPengalamanById = async (req, res) => {
-  const { pengalamanId } = req.params;
+  const { id } = req.params;
   try {
-    const userpengalaman = await userPengalamanModel.getUserPengalamanByIdUser(
-      pengalamanId
-    );
+    const userpengalaman = await userPengalamanModel.getUserPengalamanById(id);
     return res.status(200).json(userpengalaman);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -58,7 +56,8 @@ const createUserPengalaman = async (req, res) => {
 const updateUserPengalaman = async (req, res) => {
   const { id } = req.params;
   const pengalamanData = req.body;
-  console.log(pengalamanData);
+  const userId = req.user.id;
+  pengalamanData.id_user = userId;
   try {
     const updatedUserPengalaman =
       await userPengalamanModel.updateUserPengalaman(id, pengalamanData);

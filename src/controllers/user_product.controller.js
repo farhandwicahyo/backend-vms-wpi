@@ -35,7 +35,7 @@ const getUserProductByIdUser = async (req, res) => {
 const createUserProduct = async (req, res) => {
   try {
     const data = {
-      id_user: req.body.id_user,
+      id_user: req.user.id,
       brand: req.body.brand,
       price: req.body.price,
       id_kurs: Number(req.body.id_kurs),
@@ -43,7 +43,7 @@ const createUserProduct = async (req, res) => {
       volume: req.body.volume,
       id_satuan: Number(req.body.id_satuan),
       address: req.body.address,
-      item_image: req.body.item_image,
+      item_image: req.file.path,
       description: req.body.description,
       id_jenis_product: Number(req.body.id_jenis_product),
       id_provinsi: Number(req.body.id_provinsi),
@@ -52,7 +52,6 @@ const createUserProduct = async (req, res) => {
       storage_type: req.body.storage_type,
       packaging: req.body.packaging,
     };
-    console.log(data);
     const newUserProduct = await userProductModel.createUserProduct(data);
     res.status(201).json(newUserProduct);
   } catch (error) {
