@@ -13,7 +13,7 @@ const getUserProductDetail = async (req, res) => {
   const { productId } = req.params;
   try {
     const userProduct = await userProductModel.getUserProductDetail(productId);
-    return res.status(200).json(userProduct);
+    return res.status(200).json(userProduct[0]);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -61,14 +61,30 @@ const createUserProduct = async (req, res) => {
 
 const updateUserProduct = async (req, res) => {
   const { id } = req.params;
-  const documentData = req.body;
+  const data = {
+    id_user: req.user.id,
+    brand: req.body.brand,
+    price: req.body.price,
+    id_kurs: Number(req.body.id_kurs),
+    stock: req.body.stock,
+    volume: req.body.volume,
+    id_satuan: Number(req.body.id_satuan),
+    address: req.body.address,
+    item_image: req.file ? req.file.path : null,
+    description: req.body.description,
+    id_jenis_product: Number(req.body.id_jenis_product),
+    id_provinsi: Number(req.body.id_provinsi),
+    id_kota: Number(req.body.id_kota),
+    company_category: req.body.company_category,
+    storage_type: req.body.storage_type,
+    packaging: req.body.packaging,
+  };
 
   try {
     const updatedUserProduct = await userProductModel.updateUserProduct(
       id,
-      documentData
+      data
     );
-    console.log(updatedUserProduct);
     return res.status(200).json(updatedUserProduct);
   } catch (error) {
     res.status(500).json({ error: error.message });
