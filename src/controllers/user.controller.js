@@ -57,6 +57,7 @@ const updateUser = async (req, res) => {
     const user = await userModel.updateUser(Number(id), userData);
     res.status(200).json(user);
   } catch (error) {
+    console.log("error", error.message);
     res.status(500).json({ error: error.message });
   }
 };

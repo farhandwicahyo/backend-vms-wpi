@@ -8,6 +8,7 @@ const {
   createUserProduct,
   updateUserProduct,
   deleteUserProduct,
+  getUserProductSummaryByIdUser,
 } = require("../controllers/user_product.controller");
 const {
   authenticateToken,
@@ -21,6 +22,12 @@ router.get(
   authenticateToken,
   authorizeRoles([1, 2, 3, 4]),
   getAllUserProducts
+);
+router.get(
+  "/summary",
+  authenticateToken,
+  authorizeRoles([1, 2, 3, 4]),
+  getUserProductSummaryByIdUser
 );
 router.get(
   "/:productId",

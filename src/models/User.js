@@ -47,8 +47,7 @@ const getAllUserInternal = async () => {
     user.id_role IN (2, 3);
 `;
 
-return users;
-
+  return users;
 };
 
 const getAllUserDRM = async () => {
@@ -92,7 +91,12 @@ const createUser = async (userData) => {
 const updateUser = async (id, userData) => {
   return await prisma.user.update({
     where: { id_user: id },
-    data: userData,
+    data: {
+      ...userData,
+      status: {
+        connect: { id_status: userData.status }, // Assuming `statusId` is part of `userData`
+      },
+    },
   });
 };
 

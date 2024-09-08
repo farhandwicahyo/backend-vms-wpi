@@ -15,30 +15,31 @@ datasource db {
 
 // detail
 model User {
-  id_user         Int                @id @default(autoincrement())
-  npwp            String?            @unique
-  nip             String?            @unique
-  email           String             @unique
-  username        String             @unique
-  password        String
-  nama_perusahaan String
-  nama_pic        String
-  no_telephone    String
-  id_role         Int
-  role            mst_role           @relation(fields: [id_role], references: [id_role])
-  id_status       Int?
-  status          mst_status?        @relation(fields: [id_status], references: [id_status])
-  createdAt       DateTime           @default(now())
-  updatedAt       DateTime           @default(now()) @updatedAt
-  documents       User_Document[]
-  sertifikasi     User_Sertifikasi[]
-  product         User_Product[]
-  pengalaman      User_Pengalaman[]
-  penawaran       User_Penawaran[]
-  history         User_History[]
-  po              User_PO[]
-  accessToken     String?            @db.VarChar(1000)
-  refreshToken    String?            @db.VarChar(1000)
+  id_user            Int                @id @default(autoincrement())
+  npwp               String?            @unique
+  nip                String?            @unique
+  email              String             @unique
+  username           String             @unique
+  password           String
+  nama_perusahaan    String
+  nama_pic           String
+  no_telephone       String
+  id_role            Int
+  role               mst_role           @relation(fields: [id_role], references: [id_role])
+  id_status          Int?
+  status_description String?
+  status             mst_status?        @relation(fields: [id_status], references: [id_status])
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @default(now()) @updatedAt
+  documents          User_Document[]
+  sertifikasi        User_Sertifikasi[]
+  product            User_Product[]
+  pengalaman         User_Pengalaman[]
+  penawaran          User_Penawaran[]
+  history            User_History[]
+  po                 User_PO[]
+  accessToken        String?            @db.VarChar(1000)
+  refreshToken       String?            @db.VarChar(1000)
 }
 
 model User_Document {

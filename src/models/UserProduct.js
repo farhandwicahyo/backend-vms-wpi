@@ -1,4 +1,5 @@
 const { PrismaClient, Prisma } = require("@prisma/client");
+const { json } = require("../utils/helper");
 const prisma = new PrismaClient();
 
 const getAllUserProducts = async () => {
@@ -89,6 +90,20 @@ const getUserProductByIdUser = async (userId) => {
           WHERE user.id_user = ${Number(userId)}
         `;
     return data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const getUserProductSummaryByIdUser = async (userId) => {
+  try {
+    const data = await prisma.$queryRaw`
+          SELECT
+              COUNT(id_product) AS total_product
+          FROM user_product
+          WHERE id_user = ${Number(userId)}
+        `;
+    return data[0];
   } catch (error) {
     throw new Error(error.message);
   }
@@ -186,7 +201,6 @@ const updateUserProduct = async (id, documentData) => {
     let response;
 
     if (item_image) {
-      console.log("item image", item_image);
       response = await prisma.$queryRaw`
         UPDATE user_product
         SET 
@@ -209,8 +223,6 @@ const updateUserProduct = async (id, documentData) => {
         WHERE id_product = ${id}
       `;
     } else {
-      console.log("item image not exist", item_image);
-
       response = await prisma.$queryRaw`
         UPDATE user_product
         SET 
@@ -257,4 +269,5 @@ module.exports = {
   createUserProduct,
   updateUserProduct,
   deleteUserProduct,
+  getUserProductSummaryByIdUser,
 };

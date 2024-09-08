@@ -9,6 +9,7 @@ const {
   createUserPenawaran,
   updateUserPenawaran,
   deleteUserPenawaran,
+  getUserPenawaranSummaryByIdUser,
 } = require("../controllers/user_penawaran.controller");
 const {
   authenticateToken,
@@ -22,6 +23,12 @@ router.get(
   authenticateToken,
   authorizeRoles([1, 2, 3, 4]),
   getAllUserPenawaran
+);
+router.get(
+  "/summary",
+  authenticateToken,
+  authorizeRoles([1, 2, 3, 4]),
+  getUserPenawaranSummaryByIdUser
 );
 router.get(
   "/manager",

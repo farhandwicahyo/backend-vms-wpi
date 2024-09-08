@@ -32,6 +32,22 @@ const getUserProductByIdUser = async (req, res) => {
   }
 };
 
+const getUserProductSummaryByIdUser = async (req, res) => {
+  const userId = Number(req.user.id);
+  try {
+    const userProduct = await userProductModel.getUserProductSummaryByIdUser(
+      userId
+    );
+    if (!userProduct) {
+      return res.status(404).json({ error: "User product not found" });
+    }
+    console.log("userProduct", userProduct);
+    return res.status(200).json(userProduct);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const createUserProduct = async (req, res) => {
   try {
     const data = {
@@ -109,4 +125,5 @@ module.exports = {
   createUserProduct,
   updateUserProduct,
   deleteUserProduct,
+  getUserProductSummaryByIdUser,
 };
