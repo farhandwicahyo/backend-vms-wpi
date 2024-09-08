@@ -34,16 +34,14 @@ const getAllUserPenawaran = async () => {
 };
 
 const getUserPenawaranByManager = async () => {
-  return await prisma.$queryRaw`
-    SELECT 
-    user_penawaran.no_penawaran,
+  const data = await prisma.$queryRaw`
+        SELECT 
+          user_penawaran.id_penawaran,
+          user_penawaran.no_penawaran,
           user_product.brand,
           user_product.price,
-          user_penawaran.id_product,
-          mst_kurs.id_kurs,
           mst_kurs.nama_kurs,
           user_product.stock,
-          mrs_satuan.id_satuan,
           mst_satuan.nama_satuan,
           user_penawaran.tanggal_dibuat_penawaran,
           user_penawaran.tanggal_mulai_penawaran,
@@ -51,27 +49,57 @@ const getUserPenawaranByManager = async () => {
           user_penawaran.Terms_of_Payment,
           user_penawaran.Terms_of_Delivery,
           user_penawaran.description,
-          status_penawaran.id_status AS id_status_penawaran,
-          status_proses.id_status AS id_status_proses_penawaran,
+          user_penawaran.id_status_penawaran,
+          user_penawaran.id_status_proses_penawaran,
           status_penawaran.nama_status AS nama_status_penawaran,
           status_proses.nama_status AS nama_status_proses_penawaran
-FROM 
-    user_penawaran 
-LEFT JOIN 
-    user_product ON user_penawaran.id_product = user_product.id_product
-LEFT JOIN 
-    mst_kurs ON user_product.id_kurs = mst_kurs.id_kurs
-LEFT JOIN 
-    mst_satuan ON user_product.id_satuan = mst_satuan.id_satuan
-LEFT JOIN 
-    mst_status AS status_penawaran ON user_penawaran.id_status_penawaran = status_penawaran.id_status
-LEFT JOIN 
-    mst_status AS status_proses ON user_penawaran.id_status_proses_penawaran = status_proses.id_status
-WHERE
-    status_penawaran.nama_status IN ('Berlaku','Tidak Berlaku')
-    AND
-    status_proses.nama_status IN ('Penawaran Dipilih Staff', 'Penawaran Dipilih Manager', 'Penawaran Ditolak Manager');
-    `;
+      FROM user_penawaran 
+      LEFT JOIN user_product ON user_penawaran.id_product = user_product.id_product
+      LEFT JOIN mst_kurs ON user_product.id_kurs = mst_kurs.id_kurs
+      LEFT JOIN mst_satuan ON user_product.id_satuan = mst_satuan.id_satuan
+      LEFT JOIN mst_status AS status_penawaran ON user_penawaran.id_status_penawaran = status_penawaran.id_status
+      LEFT JOIN mst_status AS status_proses ON user_penawaran.id_status_proses_penawaran = status_proses.id_status
+      WHERE user_penawaran.id_status_proses_penawaran IN (4,5,7)
+            `;
+  return data;
+  //   return await prisma.$queryRaw`
+  //     SELECT
+  //     user_penawaran.no_penawaran,
+  //           user_product.brand,
+  //           user_product.price,
+  //           user_penawaran.id_product,
+  //           mst_kurs.id_kurs,
+  //           mst_kurs.nama_kurs,
+  //           user_product.stock,
+  //           mrs_satuan.id_satuan,
+  //           mst_satuan.nama_satuan,
+  //           user_penawaran.tanggal_dibuat_penawaran,
+  //           user_penawaran.tanggal_mulai_penawaran,
+  //           user_penawaran.tanggal_berakhir_penawaran,
+  //           user_penawaran.Terms_of_Payment,
+  //           user_penawaran.Terms_of_Delivery,
+  //           user_penawaran.description,
+  //           status_penawaran.id_status AS id_status_penawaran,
+  //           status_proses.id_status AS id_status_proses_penawaran,
+  //           status_penawaran.nama_status AS nama_status_penawaran,
+  //           status_proses.nama_status AS nama_status_proses_penawaran
+  // FROM
+  //     user_penawaran
+  // LEFT JOIN
+  //     user_product ON user_penawaran.id_product = user_product.id_product
+  // LEFT JOIN
+  //     mst_kurs ON user_product.id_kurs = mst_kurs.id_kurs
+  // LEFT JOIN
+  //     mst_satuan ON user_product.id_satuan = mst_satuan.id_satuan
+  // LEFT JOIN
+  //     mst_status AS status_penawaran ON user_penawaran.id_status_penawaran = status_penawaran.id_status
+  // LEFT JOIN
+  //     mst_status AS status_proses ON user_penawaran.id_status_proses_penawaran = status_proses.id_status
+  // WHERE
+  //     status_penawaran.nama_status IN ('Berlaku','Tidak Berlaku')
+  //     AND
+  //     status_proses.nama_status IN ('Penawaran Dipilih Staff', 'Penawaran Dipilih Manager', 'Penawaran Ditolak Manager');
+  //     `;
 };
 
 const getUserPenawaranDetail = async (id) => {
@@ -220,6 +248,7 @@ const getUserPenawaranByStatusProsesPenawaran = async (
   try {
     const data = await prisma.$queryRaw`
         SELECT 
+          user_penawaran.id_penawaran,
           user_penawaran.no_penawaran,
           user_product.brand,
           user_product.price,
@@ -232,6 +261,8 @@ const getUserPenawaranByStatusProsesPenawaran = async (
           user_penawaran.Terms_of_Payment,
           user_penawaran.Terms_of_Delivery,
           user_penawaran.description,
+          user_penawaran.id_status_penawaran,
+          user_penawaran.id_status_proses_penawaran,
           status_penawaran.nama_status AS nama_status_penawaran,
           status_proses.nama_status AS nama_status_proses_penawaran
       FROM user_penawaran 
@@ -304,28 +335,56 @@ const createUserPenawaran = async (documentData) => {
 
 const updateUserPenawaran = async (id, documentData) => {
   try {
-    const { id_status_penawaran, id_status_proses_penawaran } = documentData;
+    // remove field from documentData, such as, id_penawaran, id_status_penawaran, id_status_proses_penawaran
+    const newDocumentData = Object.keys(documentData).reduce((object, key) => {
+      if (
+        key === "tanggal_dibuat_penawaran" ||
+        key === "tanggal_mulai_penawaran" ||
+        key === "tanggal_berakhir_penawaran" ||
+        key === "Terms_of_Payment" ||
+        key === "Terms_of_Delivery" ||
+        key === "id_status_penawaran" ||
+        key === "id_status_proses_penawaran"
+      ) {
+        object[key] = documentData[key];
+      }
+      return object;
+    }, {});
+
     const numId = Number(id);
-    const numIdStatusPenawaran = Number(id_status_penawaran);
-    const numIdStatusProsesPenawaran = Number(id_status_proses_penawaran);
-    let response = null;
-    if (id_status_penawaran) {
-      response = await prisma.$queryRaw`
-        UPDATE user_penawaran
-        SET
-          id_status_penawaran = ${numIdStatusPenawaran}
-        WHERE id_penawaran = ${numId}
-      `;
-    } else if (id_status_proses_penawaran) {
-      response = await prisma.$queryRaw`
-        UPDATE user_penawaran
-        SET
-          id_status_proses_penawaran = ${numIdStatusProsesPenawaran}
-        WHERE id_penawaran = ${numId}
-      `;
-    }
-    return response;
+    // const numIdStatusPenawaran = Number(id_status_penawaran);
+    // const numIdStatusProsesPenawaran = Number(id_status_proses_penawaran);
+    // let response = null;
+    // if (id_status_penawaran) {
+    //   response = await prisma.$queryRaw`
+    //     UPDATE user_penawaran
+    //     SET
+    //       id_status_penawaran = ${numIdStatusPenawaran}
+    //     WHERE id_penawaran = ${numId}
+    //   `;
+    // } else if (id_status_proses_penawaran) {
+    //   response = await prisma.$queryRaw`
+    //     UPDATE user_penawaran
+    //     SET
+    //       id_status_proses_penawaran = ${numIdStatusProsesPenawaran}
+    //     WHERE id_penawaran = ${numId}
+    //   `;
+    // }
+    // return response;
+
+    const data = await prisma.user_Penawaran.update({
+      where: {
+        id_penawaran: numId,
+      },
+      data: { ...newDocumentData },
+    });
+
+    console.log("data", data);
+
+    return data;
   } catch (error) {
+    console.log("error", error.message);
+    // throw new Error(error.message);
     throw new Error(error.message);
   }
 };
