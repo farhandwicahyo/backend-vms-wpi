@@ -48,18 +48,22 @@ const getUserDocumentByIdJenisDocument = async (req, res) => {
 const createUserDocument = async (req, res) => {
   try {
     const data = {
-      id_user: req.body.id_user,
+      id_user: req.user.id,
       nama_document: req.body.nama_document,
       id_jenis_document: Number(req.body.id_jenis_document),
       tanggal_berlaku: req.body.tanggal_berlaku,
       tanggal_berakhir: req.body.tanggal_berakhir,
-      file: req.body.file,
-      id_status: req.body.id_status,
+      file: req.file.path,
+      id_status: 10, // sudah upload
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    console.log(data);
     const newUserDocument = await userDocumentModel.createUserDocument(data);
 
-    res.status(201).json(newUserDocument);
+    res.status(201).json({
+      message: "Document created successfully",
+      data: newUserDocument,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -67,14 +71,25 @@ const createUserDocument = async (req, res) => {
 
 const updateUserDocument = async (req, res) => {
   const { id } = req.params;
-  const documentData = req.body;
 
   try {
+    const data = {
+      id_user: req.user.id,
+      nama_document: req.body.nama_document,
+      id_jenis_document: Number(req.body.id_jenis_document),
+      tanggal_berlaku: req.body.tanggal_berlaku,
+      tanggal_berakhir: req.body.tanggal_berakhir,
+      id_status: 10, // sudah upload
+    };
+
+    if (req.file && req.file.path) {
+      data.file = req.file.path;
+    }
+
     const updatedUserDocument = await userDocumentModel.updateUserDocument(
       id,
-      documentData
+      data
     );
-    console.log(updatedUserDocument);
     return res.status(200).json(updatedUserDocument);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -83,12 +98,23 @@ const updateUserDocument = async (req, res) => {
 
 const deleteUserDocument = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     await userDocumentModel.deleteUserDocument(id);
     res.status(204).send();
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+const getMissingDocumentsByUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const missingDocuments = await userDocumentModel.getMissingDocumentsByUser(
+      userId
+    );
+    res.status(200).json(missingDocuments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -100,4 +126,5 @@ module.exports = {
   createUserDocument,
   updateUserDocument,
   deleteUserDocument,
+  getMissingDocumentsByUser,
 };

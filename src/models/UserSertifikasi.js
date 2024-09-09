@@ -16,7 +16,7 @@ const getAllUserSertifikasi = async () => {
 const getUserSertifikasiById = async (id) => {
   try {
     return await prisma.$queryRaw`
-    SELECT user_sertifikasi.id_sertifikasi, user.nama_perusahaan, user_sertifikasi.nama_sertifikasi, mst_jenis_sertifikasi.nama_sertifikasi AS 'jenis_sertifikasi', user_sertifikasi.tanggal_berlaku, user_sertifikasi.tanggal_berakhir, user_sertifikasi.file FROM user_sertifikasi
+    SELECT user_sertifikasi.id_sertifikasi, user.nama_perusahaan, user_sertifikasi.nama_sertifikasi, user_sertifikasi.id_jenis_sertifikasi ,mst_jenis_sertifikasi.nama_sertifikasi AS 'jenis_sertifikasi', user_sertifikasi.tanggal_berlaku, user_sertifikasi.tanggal_berakhir, user_sertifikasi.file FROM user_sertifikasi
     LEFT JOIN User ON user_sertifikasi.id_user = user.id_user 
     LEFT JOIN mst_jenis_sertifikasi ON user_sertifikasi.id_jenis_sertifikasi = mst_jenis_sertifikasi.id_jenis_sertifikasi
     WHERE user_sertifikasi.id_sertifikasi = ${Number(id)}
@@ -66,65 +66,81 @@ const getUserSertifikasiByIdJenisSertifikasi = async (jenisSertifikasiId) => {
 };
 
 const createUserSertifikasi = async (sertifikasiData) => {
-    try {
-        const {
-          id_user,
-          nama_sertifikasi,
-          id_jenis_sertifikasi,
-          tanggal_berlaku,
-          tanggal_berakhir,
-          file,
-        } = sertifikasiData;
-    
-        const response = await prisma.$queryRaw`
-          INSERT INTO user_sertifikasi (id_user, nama_sertifikasi, id_jenis_sertifikasi, tanggal_berlaku, tanggal_berakhir, file)
-          VALUES (${id_user}, ${nama_sertifikasi}, ${id_jenis_sertifikasi}, ${tanggal_berlaku}, ${tanggal_berakhir}, ${file})
+  try {
+    const {
+      id_user,
+      nama_sertifikasi,
+      id_jenis_sertifikasi,
+      tanggal_berlaku,
+      tanggal_berakhir,
+      file,
+      updatedAt,
+    } = sertifikasiData;
+
+    const response = await prisma.$queryRaw`
+          INSERT INTO user_sertifikasi (id_user, nama_sertifikasi, id_jenis_sertifikasi, tanggal_berlaku, tanggal_berakhir, file, updatedAt)
+          VALUES (${id_user}, ${nama_sertifikasi}, ${id_jenis_sertifikasi}, ${tanggal_berlaku}, ${tanggal_berakhir}, ${file}, ${updatedAt})
         `;
-    
-        return response;
-      } catch (error) {
-        throw new Error(error.message);
-      }
+
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const updateUserSertifikasi = async (id, sertifikasiData) => {
-    try {
-        const {
-          id_user,
-          nama_sertifikasi,
-          id_jenis_sertifikasi,
-          tanggal_berlaku,
-          tanggal_berakhir,
-          file,
-        } = sertifikasiData;
-    
-        const response = await prisma.$queryRaw`
-          UPDATE user_sertifikasi
-          SET id_user = ${id_user},
-              nama_sertifikasi = ${nama_sertifikasi},
-              id_jenis_sertifikasi = ${id_jenis_sertifikasi},
-              tanggal_berlaku = ${tanggal_berlaku},
-              tanggal_berakhir = ${tanggal_berakhir},
-              file = ${file}
-          WHERE id_sertifikasi = ${id}
-        `;
-    
-        return response;
-      } catch (error) {
-        throw new Error(error.message);
-      }
+  try {
+    const {
+      nama_sertifikasi,
+      id_jenis_sertifikasi,
+      tanggal_berlaku,
+      tanggal_berakhir,
+      file,
+    } = sertifikasiData;
+
+    let response;
+
+    if (file) {
+      response = await prisma.$queryRaw`
+        UPDATE user_sertifikasi
+        SET 
+            nama_sertifikasi = ${nama_sertifikasi},
+            id_jenis_sertifikasi = ${id_jenis_sertifikasi},
+            tanggal_berlaku = ${tanggal_berlaku},
+            tanggal_berakhir = ${tanggal_berakhir},
+            file = ${file},
+            updatedAt = NOW()
+        WHERE id_sertifikasi = ${id}
+      `;
+    } else {
+      response = await prisma.$queryRaw`
+        UPDATE user_sertifikasi
+        SET 
+            nama_sertifikasi = ${nama_sertifikasi},
+            id_jenis_sertifikasi = ${id_jenis_sertifikasi},
+            tanggal_berlaku = ${tanggal_berlaku},
+            tanggal_berakhir = ${tanggal_berakhir},
+            updatedAt = NOW()
+        WHERE id_sertifikasi = ${id}
+      `;
+    }
+
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const deleteUserSertifikasi = async (id) => {
-    try {
-        const response = await prisma.$queryRaw`
+  try {
+    const response = await prisma.$queryRaw`
           DELETE FROM user_sertifikasi WHERE id_sertifikasi = ${id}
-        `
-    
-        return response
-      } catch (error) {
-        throw new Error(error.message)
-      }
+        `;
+
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 module.exports = {
