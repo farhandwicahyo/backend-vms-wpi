@@ -6,6 +6,7 @@ const getAllUserPenawaran = async () => {
       SELECT 
       user_penawaran.id_penawaran,
           user_penawaran.no_penawaran,
+          user_product.id_product,
           user_product.brand,
           user_product.price,
           user_penawaran.id_product,
@@ -235,7 +236,6 @@ const getUserPenawaranByStatusPenawaran = async (statuspenawaranId) => {
         LEFT JOIN mst_status AS status_proses ON user_penawaran.id_status_proses_penawaran = status_proses.id_status
         WHERE user_penawaran.id_status_penawaran = ${Number(statuspenawaranId)}
           `;
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error(error.message);
@@ -250,6 +250,7 @@ const getUserPenawaranByStatusProsesPenawaran = async (
         SELECT 
           user_penawaran.id_penawaran,
           user_penawaran.no_penawaran,
+          user_product.id_product,
           user_product.brand,
           user_product.price,
           mst_kurs.nama_kurs,

@@ -77,6 +77,7 @@ const getUserPenawaranByStatusPenawaran = async (req, res) => {
 
 const getUserPenawaranByStatusProsesPenawaran = async (req, res) => {
   const { statusprosespenawaranId } = req.params;
+  console.log(statusprosespenawaranId);
   try {
     const userPenawaran =
       await userPenawaranModel.getUserPenawaranByStatusProsesPenawaran(
