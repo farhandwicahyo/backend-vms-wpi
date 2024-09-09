@@ -62,7 +62,8 @@ const getAllUserDRM = async () => {
     user.no_telephone, 
     user.npwp, 
     mst_role.nama_role, 
-    mst_status.nama_status
+    mst_status.nama_status,
+    user.id_status
   FROM 
     user
   LEFT JOIN 

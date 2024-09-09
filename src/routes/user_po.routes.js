@@ -5,6 +5,7 @@ const {
   createUserPO,
   getUserPODetail,
   deleteUserPO,
+  updateUserPO,
 } = require("../controllers/user_po.controller");
 const {
   authenticateToken,
@@ -15,14 +16,20 @@ const router = express.Router();
 
 router.get("/", authenticateToken, authorizeRoles([3]), getAllUserPO);
 
-router.get("/userPO", authenticateToken, authorizeRoles([3]), getUserPO);
+router.get("/userPO", authenticateToken, authorizeRoles([2, 3]), getUserPO);
 
-router.get("/:id_po", authenticateToken, authorizeRoles([3]), getUserPODetail);
+router.get(
+  "/:id_po",
+  authenticateToken,
+  authorizeRoles([2, 3]),
+  getUserPODetail
+);
 
 router.post("/", authenticateToken, authorizeRoles([3]), createUserPO);
 
 router.delete("/:id", authenticateToken, authorizeRoles([3]), deleteUserPO);
 
+router.put("/:id", authenticateToken, authorizeRoles([3]), updateUserPO);
 // router.post(
 //   "/",
 //   authenticateToken,

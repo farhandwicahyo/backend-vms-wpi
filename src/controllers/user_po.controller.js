@@ -60,12 +60,28 @@ const deleteUserPO = async (req, res) => {
   }
 };
 
+const updateUserPO = async (req, res) => {
+  const { id } = req.params;
+  const documentData = req.body;
+
+  try {
+    const updatedUserPO = await userPOModel.updateUserPO(
+      Number(id),
+      documentData
+    );
+    return res.status(200).json(updatedUserPO);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllUserPO,
   getUserPO,
   createUserPO,
   getUserPODetail,
   deleteUserPO,
+  updateUserPO,
 };
 
 // const getUserPenawaranByManager = async (req, res) => {

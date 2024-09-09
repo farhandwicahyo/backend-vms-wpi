@@ -19,11 +19,13 @@ const UserProduct = require("./user_product.routes");
 const UserPenawaran = require("./user_penawaran.routes");
 const UserPO = require("./user_po.routes");
 const ManagerRoutes = require("./manager.routes");
+const DashboardRoutes = require("./dashboard.routes");
 const { serveFile } = require("../controllers/file.controller");
 
 router.use("/user", UserRoutes);
 router.use("/auth", AuthRoutes);
 router.use("/role", RoleRoutes);
+router.use("/dashboard", DashboardRoutes);
 router.use("/jenis-document", JenisDocumentRoutes);
 router.use("/jenis-sertifikasi", JenisSertifikasi);
 router.use("/satuan", SatuanRoutes);

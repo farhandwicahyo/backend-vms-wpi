@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const getAllUserProducts = async () => {
   return await prisma.$queryRaw`
         SELECT 
+            user_product.id_product,
             user_product.brand, 
             user_product.price, 
             mst_kurs.nama_kurs, 
